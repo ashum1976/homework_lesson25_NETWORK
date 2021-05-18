@@ -96,7 +96,7 @@ Vagrant.configure("2") do |config|
         case boxname.to_s
         when "inetRouter"
           box.vm.provision "shell", run: "always", inline: <<-SHELL
-            #sysctl net.ipv4.conf.all.forwarding=1
+            sysctl net.ipv4.conf.all.forwarding=1
             iptables -t nat -A POSTROUTING ! -d 192.168.0.0/16 -o eth0 -j MASQUERADE
             touch /etc/sysconfig/network-scripts/route-eth1
             echo "192.168.1.0/25 via 192.168.255.2" > /etc/sysconfig/network-scripts/route-eth1
@@ -114,7 +114,7 @@ Vagrant.configure("2") do |config|
             SHELL
         when "centralRouter"
           box.vm.provision "shell", run: "always", inline: <<-SHELL
-            # sysctl net.ipv4.conf.all.forwarding=1
+            sysctl net.ipv4.conf.all.forwarding=1
             echo "DEFROUTE=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
             echo "GATEWAY=192.168.255.1" >> /etc/sysconfig/network-scripts/ifcfg-eth1
             # touch /etc/sysconfig/network-scripts/ifcfg-eth2:0
@@ -143,7 +143,7 @@ Vagrant.configure("2") do |config|
             SHELL
         when "office1Router"
           box.vm.provision "shell", run: "always", inline: <<-SHELL
-            # sysctl net.ipv4.conf.all.forwarding=1
+            sysctl net.ipv4.conf.all.forwarding=1
             echo "DEFROUTE=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
             echo "GATEWAY=192.168.3.3" >> /etc/sysconfig/network-scripts/ifcfg-eth4
             systemctl restart network
@@ -151,7 +151,7 @@ Vagrant.configure("2") do |config|
             SHELL
         when "office2Router"
           box.vm.provision "shell", run: "always", inline: <<-SHELL
-            #sysctl net.ipv4.conf.all.forwarding=1
+            sysctl net.ipv4.conf.all.forwarding=1
             echo "DEFROUTE=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
             echo "GATEWAY=192.168.3.17" >> /etc/sysconfig/network-scripts/ifcfg-eth4
             systemctl restart network
