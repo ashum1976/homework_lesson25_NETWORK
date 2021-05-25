@@ -11,7 +11,7 @@ MACHINES = {
                    {ip: '192.168.255.1', adapter: 2, netmask: "255.255.255.248", virtualbox__intnet: "router-net"},
                 ]
   },
-  inetRouter2 => {
+  :inetRouter2 => {
         :box_name => "centos/7",
         #:public => {:ip => '10.10.10.1', :adapter => 1},
         :net => [
@@ -97,7 +97,6 @@ Vagrant.configure("2") do |config|
           systemctl restart sshd
 
         SHELL
-
 
         box.vm.provision :ansible_local do |ansible|
        #Установка  коллекции community.general, для использования community.general.nmcli (nmcli) управление сетевыми устройствами.

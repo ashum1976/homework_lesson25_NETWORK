@@ -6,4 +6,4 @@
   gather_facts: True
   roles:
     - servers
-  tags: servers
+  # tags: servers
