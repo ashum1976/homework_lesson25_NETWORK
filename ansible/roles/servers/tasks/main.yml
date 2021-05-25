@@ -1,0 +1,16 @@
+---
+# tasks file for roles
+- name: 'Конфигурирование структуры сети'
+  ping:
+
+- name: 'Конфигурация centralServer'
+  script: centralServer.sh
+  tags: centralServer
+
+- name: 'Конфигурация office1Server'
+  script: office1Server.sh
+  tags: office1Server
+
+- name: 'Конфигурация office2Server'
+  script: office2Server.sh
+  tags: office2Server

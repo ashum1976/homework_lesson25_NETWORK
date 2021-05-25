@@ -1,0 +1,251 @@
+2021-05-21 16:46:16,944 p=964768 u=andrey n=ansible | @all:
+  |--@routers:
+  |  |--centralRouter
+  |  |--inetRouter
+  |  |--inetRouter2
+  |  |--office1Router
+  |  |--office2Router
+  |--@servers:
+  |  |--centarlServer
+  |  |--office1Server
+  |  |--office2Server
+  |--@ungrouped:
+2021-05-23 23:12:22,995 p=13577 u=andrey n=ansible | @routers:
+  |--centralRouter
+  |--inetRouter
+  |--inetRouter2
+  |--office1Router
+  |--office2Router
+2021-05-23 23:12:43,830 p=13614 u=andrey n=ansible | ERROR! We were unable to read either as JSON nor YAML, these are the errors we got from each:
+JSON: Expecting value: line 1 column 1 (char 0)
+
+Syntax Error while loading YAML.
+  did not find expected ',' or '}'
+
+The error appears to be in '/installs/Study/OTUS/lesson_25_NETWORK/homework_lesson25_NETWORK/ansible/inventory/host_vars/inetRouter': line 3, column 25, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+route:
+  - { ip: '192.168.1.0' gw: '192.168.255.2' }
+                        ^ here
+This one looks easy to fix. It seems that there is a value started
+with a quote, and the YAML parser is expecting to see the line ended
+with the same kind of quote. For instance:
+
+    when: "ok" in result.stdout
+
+Could be written as:
+
+   when: '"ok" in result.stdout'
+
+Or equivalently:
+
+   when: "'ok' in result.stdout"
+
+2021-05-23 23:14:52,338 p=13701 u=andrey n=ansible | ERROR! We were unable to read either as JSON nor YAML, these are the errors we got from each:
+JSON: Expecting value: line 1 column 1 (char 0)
+
+Syntax Error while loading YAML.
+  found unexpected end of stream
+
+The error appears to be in '/installs/Study/OTUS/lesson_25_NETWORK/homework_lesson25_NETWORK/ansible/inventory/host_vars/inetRouter': line 6, column 1, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+  - { ip: '192.168.3.0', gw: '192.168.255.2' }
+  - {ip: '192.168.1.128', gw: '192.168.255.2"
+^ here
+This one looks easy to fix. It seems that there is a value started
+with a quote, and the YAML parser is expecting to see the line ended
+with the same kind of quote. For instance:
+
+    when: "ok" in result.stdout
+
+Could be written as:
+
+   when: '"ok" in result.stdout'
+
+Or equivalently:
+
+   when: "'ok' in result.stdout"
+
+2021-05-23 23:15:15,627 p=13726 u=andrey n=ansible | ERROR! We were unable to read either as JSON nor YAML, these are the errors we got from each:
+JSON: Expecting value: line 1 column 1 (char 0)
+
+Syntax Error while loading YAML.
+  found unexpected end of stream
+
+The error appears to be in '/installs/Study/OTUS/lesson_25_NETWORK/homework_lesson25_NETWORK/ansible/inventory/host_vars/inetRouter': line 6, column 1, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+  - { ip: '192.168.3.0', gw: '192.168.255.2' }
+  - {ip: '192.168.1.128', gw: '192.168.255.2}
+^ here
+This one looks easy to fix. It seems that there is a value started
+with a quote, and the YAML parser is expecting to see the line ended
+with the same kind of quote. For instance:
+
+    when: "ok" in result.stdout
+
+Could be written as:
+
+   when: '"ok" in result.stdout'
+
+Or equivalently:
+
+   when: "'ok' in result.stdout"
+
+2021-05-23 23:15:31,159 p=13739 u=andrey n=ansible | ERROR! We were unable to read either as JSON nor YAML, these are the errors we got from each:
+JSON: Expecting value: line 1 column 1 (char 0)
+
+Syntax Error while loading YAML.
+  found unexpected end of stream
+
+The error appears to be in '/installs/Study/OTUS/lesson_25_NETWORK/homework_lesson25_NETWORK/ansible/inventory/host_vars/inetRouter': line 6, column 1, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+  - { ip: '192.168.3.0', gw: '192.168.255.2' }
+  - { ip: '192.168.1.128', gw: '192.168.255.2 }
+^ here
+This one looks easy to fix. It seems that there is a value started
+with a quote, and the YAML parser is expecting to see the line ended
+with the same kind of quote. For instance:
+
+    when: "ok" in result.stdout
+
+Could be written as:
+
+   when: '"ok" in result.stdout'
+
+Or equivalently:
+
+   when: "'ok' in result.stdout"
+
+2021-05-23 23:18:33,188 p=13833 u=andrey n=ansible | ERROR! We were unable to read either as JSON nor YAML, these are the errors we got from each:
+JSON: Expecting value: line 1 column 1 (char 0)
+
+Syntax Error while loading YAML.
+  found unexpected end of stream
+
+The error appears to be in '/installs/Study/OTUS/lesson_25_NETWORK/homework_lesson25_NETWORK/ansible/inventory/host_vars/inetRouter': line 6, column 1, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+  - { ip: '192.168.3.0', gw: '192.168.255.2' }
+  - { ip: '192.168.1.128', gw: '192.168.255.2 }
+^ here
+This one looks easy to fix. It seems that there is a value started
+with a quote, and the YAML parser is expecting to see the line ended
+with the same kind of quote. For instance:
+
+    when: "ok" in result.stdout
+
+Could be written as:
+
+   when: '"ok" in result.stdout'
+
+Or equivalently:
+
+   when: "'ok' in result.stdout"
+
+2021-05-23 23:19:56,637 p=13857 u=andrey n=ansible | @routers:
+  |--centralRouter
+  |  |--{ansible_host = 127.0.0.1}
+  |  |--{ansible_port = 2222}
+  |  |--{ansible_private_key_file = .vagrant/machines/centralRouter/virtualbox/private_key}
+  |  |--{ansible_user = vagrant}
+  |--inetRouter
+  |  |--{ansible_host = 127.0.0.1}
+  |  |--{ansible_port = 2200}
+  |  |--{ansible_private_key_file = .vagrant/machines/inetRouter/virtualbox/private_key}
+  |  |--{ansible_user = vagrant}
+  |  |--{eth1 = /etc/sysconfig/network-scripts/route-eth1}
+  |  |--{route = [{'ip': '192.168.1.0', 'gw': '192.168.255.2'}, {'ip': '192.168.3.0', 'gw': '192.168.255.2'}, {'ip': '192.168.1.128', 'gw': '192.168.255.2'}]}
+  |--inetRouter2
+  |  |--{ansible_host = 127.0.0.1}
+  |  |--{ansible_port = 2223}
+  |  |--{ansible_private_key_file = .vagrant/machines/inetRouter2/virtualbox/private_key}
+  |  |--{ansible_user = vagrant}
+  |--office1Router
+  |  |--{ansible_host = 127.0.0.1}
+  |  |--{ansible_port = 2224}
+  |  |--{ansible_private_key_file = .vagrant/machines/office1Router/virtualbox/private_key}
+  |  |--{ansible_user = vagrant}
+  |--office2Router
+  |  |--{ansible_host = 127.0.0.1}
+  |  |--{ansible_port = 2225}
+  |  |--{ansible_private_key_file = .vagrant/machines/office2Router/virtualbox/private_key}
+  |  |--{ansible_user = vagrant}
+2021-05-24 00:42:23,496 p=35005 u=andrey n=ansible | ERROR! the playbook: routers.yml could not be found
+2021-05-24 00:42:48,146 p=35023 u=andrey n=ansible | PLAY [Настройка маршрутизации  роутеров] ************************************************************************************************************************************************************
+2021-05-24 00:42:48,202 p=35023 u=andrey n=ansible | TASK [Gathering Facts] ******************************************************************************************************************************************************************************
+2021-05-24 00:42:50,085 p=35023 u=andrey n=ansible | ok: [inetRouter]
+2021-05-24 00:42:50,096 p=35023 u=andrey n=ansible | TASK [routers : Конфигурирование структуры сети] ****************************************************************************************************************************************************
+2021-05-24 00:42:50,591 p=35023 u=andrey n=ansible | ok: [inetRouter]
+2021-05-24 00:42:50,593 p=35023 u=andrey n=ansible | PLAY RECAP ******************************************************************************************************************************************************************************************
+2021-05-24 00:42:50,593 p=35023 u=andrey n=ansible | inetRouter                 : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2021-05-24 00:44:28,188 p=35146 u=andrey n=ansible | inetRouter | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+2021-05-24 01:14:49,477 p=38342 u=andrey n=ansible | ERROR! the playbook: routers.yml could not be found
+2021-05-24 01:15:34,311 p=38404 u=andrey n=ansible | PLAY [Настройка маршрутизации  роутеров] ************************************************************************************************************************************************************
+2021-05-24 01:15:34,326 p=38404 u=andrey n=ansible | TASK [Gathering Facts] ******************************************************************************************************************************************************************************
+2021-05-24 01:15:36,090 p=38404 u=andrey n=ansible | ok: [inetRouter]
+2021-05-24 01:15:36,101 p=38404 u=andrey n=ansible | TASK [routers : Конфигурирование структуры сети] ****************************************************************************************************************************************************
+2021-05-24 01:15:37,077 p=38404 u=andrey n=ansible | ok: [inetRouter]
+2021-05-24 01:15:37,080 p=38404 u=andrey n=ansible | PLAY RECAP ******************************************************************************************************************************************************************************************
+2021-05-24 01:15:37,080 p=38404 u=andrey n=ansible | inetRouter                 : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2021-05-24 02:03:57,192 p=45141 u=andrey n=ansible | @routers:
+  |--inetRouter
+  |  |--{ansible_host = 127.0.0.1}
+  |  |--{ansible_ssh_pass = vagrant}
+  |  |--{ansible_user = vagrant}
+  |  |--{eth1_route = /etc/sysconfig/network-scripts/route-eth1}
+  |  |--{route = [{'ip': '192.168.1.0', 'gw': '192.168.255.2'}, {'ip': '192.168.3.0', 'gw': '192.168.255.2'}, {'ip': '192.168.1.128', 'gw': '192.168.255.2'}]}
+2021-05-24 02:04:28,725 p=45193 u=andrey n=ansible | @all:
+  |--@routers:
+  |  |--inetRouter
+  |  |  |--{ansible_host = 127.0.0.1}
+  |  |  |--{ansible_ssh_pass = vagrant}
+  |  |  |--{ansible_user = vagrant}
+  |  |  |--{eth1_route = /etc/sysconfig/network-scripts/route-eth1}
+  |  |  |--{route = [{'ip': '192.168.1.0', 'gw': '192.168.255.2'}, {'ip': '192.168.3.0', 'gw': '192.168.255.2'}, {'ip': '192.168.1.128', 'gw': '192.168.255.2'}]}
+  |--@servers:
+  |  |--centarlServer
+  |  |  |--{ansible_host = 192.168.0.2/28}
+  |  |  |--{ansible_port = 2226}
+  |  |  |--{ansible_private_key_file = .vagrant/machines/centralServer/virtualbox/private_key}
+  |  |  |--{ansible_ssh_pass = vagrant}
+  |  |  |--{ansible_user = vagrant}
+  |  |  |--{eth1_route = /etc/sysconfig/network-scripts/route-eth1}
+  |  |--office1Server
+  |  |  |--{ansible_host = 192.168.2.67/26}
+  |  |  |--{ansible_port = 2227}
+  |  |  |--{ansible_private_key_file = .vagrant/machines/office1Server/virtualbox/private_key}
+  |  |  |--{ansible_ssh_pass = vagrant}
+  |  |  |--{ansible_user = vagrant}
+  |  |  |--{eth1_route = /etc/sysconfig/network-scripts/route-eth1}
+  |  |--office2Server
+  |  |  |--{ansible_host = 192.168.1.130/26}
+  |  |  |--{ansible_port = 2228}
+  |  |  |--{ansible_private_key_file = .vagrant/machines/office2Server/virtualbox/private_key}
+  |  |  |--{ansible_ssh_pass = vagrant}
+  |  |  |--{ansible_user = vagrant}
+  |  |  |--{eth1_route = /etc/sysconfig/network-scripts/route-eth1}
+  |--@ungrouped:
+  |--{ansible_host = 127.0.0.1}
+  |--{ansible_ssh_pass = vagrant}
+  |--{ansible_user = vagrant}
+  |--{eth1_route = /etc/sysconfig/network-scripts/route-eth1}

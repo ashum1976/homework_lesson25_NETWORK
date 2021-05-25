@@ -1,0 +1,11 @@
+---
+- name: 'Настройка маршрутизации  роутеров'
+  hosts:
+    - routers
+    - servers
+  become: True
+  gather_facts: True
+  roles:
+    - routers
+    - servers
+  # tags: routers

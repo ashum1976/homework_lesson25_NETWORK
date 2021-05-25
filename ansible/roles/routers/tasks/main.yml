@@ -1,0 +1,22 @@
+---
+# tasks file for roles
+
+- name: 'Конфигурация inetRouter'
+  script: inetRouter.sh
+  tags: inetRouter
+
+- name: 'Конфигурация центрального роутера centralRouter config networks'
+  script: centralRouter.sh
+  tags: centralRouter
+
+- name: 'Конфигурация office1Router'
+  script: office1Router.sh
+  tags: office1Router
+ 
+- name: 'Конфигурация office2Router'
+  script: office2Router.sh
+  tags: office2Router
+
+- name: ' Конфигурация дополнительного роутера для ДЗ по iptables inetRouter2'
+  script: inetRouter2.sh
+  tags: inetRouter2

@@ -8,13 +8,20 @@ MACHINES = {
         :box_name => "centos/7",
         #:public => {:ip => '10.10.10.1', :adapter => 1},
         :net => [
-                   {ip: '192.168.255.1', adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "router-net"},
+                   {ip: '192.168.255.1', adapter: 2, netmask: "255.255.255.248", virtualbox__intnet: "router-net"},
+                ]
+  },
+  inetRouter2 => {
+        :box_name => "centos/7",
+        #:public => {:ip => '10.10.10.1', :adapter => 1},
+        :net => [
+                   {ip: '192.168.255.3', adapter: 2, netmask: "255.255.255.248", virtualbox__intnet: "router-net"},
                 ]
   },
   :centralRouter => {
         :box_name => "centos/7",
         :net => [
-                   {ip: '192.168.255.2', adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "router-net"},
+                   {ip: '192.168.255.2', adapter: 2, netmask: "255.255.255.248", virtualbox__intnet: "router-net"},
                    {ip: '192.168.0.1', adapter: 3, netmask: "255.255.255.240", virtualbox__intnet: "dir-net"},
                    {ip: '192.168.0.33', adapter: 4, netmask: "255.255.255.240", virtualbox__intnet: "hw-net"},
                    {ip: '192.168.0.65', adapter: 5, netmask: "255.255.255.192", virtualbox__intnet: "mgt-net"},
@@ -68,13 +75,12 @@ MACHINES = {
                     {ip: '192.168.1.130', adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "office2-server"},
                   ]
                 },
-
 }
 
 Vagrant.configure("2") do |config|
 
   MACHINES.each do |boxname, boxconfig|
-
+    config.vm.synced_folder "./", "/vagrant", type: "rsync", rsync__auto: true, rsync__exclude: ['./hddvm, README.md']
     config.vm.define boxname do |box|
 
         box.vm.box = boxconfig[:box_name]
@@ -84,94 +90,26 @@ Vagrant.configure("2") do |config|
           box.vm.network "private_network", ipconf
         end
 
-        if boxconfig.key?(:public)
-          box.vm.network "public_network", boxconfig[:public]
-        end
-
         box.vm.provision "shell", inline: <<-SHELL
           mkdir -p ~root/.ssh
-                cp ~vagrant/.ssh/auth* ~root/.ssh
+          cp ~vagrant/.ssh/auth* ~root/.ssh
+          sed -i.bak 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+          systemctl restart sshd
+
         SHELL
 
-        case boxname.to_s
-        when "inetRouter"
-          box.vm.provision "shell", run: "always", inline: <<-SHELL
-            sysctl net.ipv4.conf.all.forwarding=1
-            iptables -t nat -A POSTROUTING ! -d 192.168.0.0/16 -o eth0 -j MASQUERADE
-            touch /etc/sysconfig/network-scripts/route-eth1
-            echo "192.168.1.0/25 via 192.168.255.2" > /etc/sysconfig/network-scripts/route-eth1
-            echo "192.168.3.0/28 via 192.168.255.2" >> /etc/sysconfig/network-scripts/route-eth1
-            echo "192.168.3.16/28 via 192.168.255.2" >> /etc/sysconfig/network-scripts/route-eth1
-            echo "192.168.1.128/26 via 192.168.255.2" >> /etc/sysconfig/network-scripts/route-eth1
-            echo "192.168.1.192/26 via 192.168.255.2" >> /etc/sysconfig/network-scripts/route-eth1
-            echo "192.168.2.0/26 via 192.168.255.2" >> /etc/sysconfig/network-scripts/route-eth1
-            echo "192.168.2.64/26 via 192.168.255.2" >> /etc/sysconfig/network-scripts/route-eth1
-            echo "192.168.2.128/26 via 192.168.255.2" >> /etc/sysconfig/network-scripts/route-eth1
-            echo "192.168.2.192/26 via 192.168.255.2" >> /etc/sysconfig/network-scripts/route-eth1
-            echo "192.168.0.2/28 via 192.168.255.2" >> /etc/sysconfig/network-scripts/route-eth1
-            systemctl restart network
-            sysctl net.ipv4.conf.all.forwarding=1
-            SHELL
-        when "centralRouter"
-          box.vm.provision "shell", run: "always", inline: <<-SHELL
-            sysctl net.ipv4.conf.all.forwarding=1
-            echo "DEFROUTE=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
-            echo "GATEWAY=192.168.255.1" >> /etc/sysconfig/network-scripts/ifcfg-eth1
-            # touch /etc/sysconfig/network-scripts/ifcfg-eth2:0
-            # echo "DEVICE=eth2:0" >> /etc/sysconfig/network-scripts/ifcfg-eth2:0
-            # echo "BOOTPROTO=static" >> /etc/sysconfig/network-scripts/ifcfg-eth2:0
-            # echo "IPADDR=192.168.3.3" >> /etc/sysconfig/network-scripts/ifcfg-eth2:0
-            # echo "NETMASK=255.255.255.224" >> /etc/sysconfig/network-scripts/ifcfg-eth2:0
-            # echo "ONBOOT=yes" >> /etc/sysconfig/network-scripts/ifcfg-eth2:0
-            touch /etc/sysconfig/network-scripts/route-eth5
-            touch /etc/sysconfig/network-scripts/route-eth6
-            echo "192.168.1.0/25 via 192.168.3.18" > /etc/sysconfig/network-scripts/route-eth6
-            echo "192.168.1.128/26 via 192.168.3.18" >> /etc/sysconfig/network-scripts/route-eth6
-            echo "192.168.1.192/26 via 192.168.3.18" >> /etc/sysconfig/network-scripts/route-eth6
-            echo "192.168.2.0/26 via 192.168.3.4" > /etc/sysconfig/network-scripts/route-eth5
-            echo "192.168.2.64/26 via 192.168.3.4" >> /etc/sysconfig/network-scripts/route-eth5
-            echo "192.168.2.128/26 via 192.168.3.4" >> /etc/sysconfig/network-scripts/route-eth5
-            echo "192.168.2.192/26 via 192.168.3.4" >> /etc/sysconfig/network-scripts/route-eth5
-            systemctl restart network
-            sysctl net.ipv4.conf.all.forwarding=1
-            SHELL
-        when "centralServer"
-          box.vm.provision "shell", run: "always", inline: <<-SHELL
-            echo "DEFROUTE=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
-            echo "GATEWAY=192.168.0.1" >> /etc/sysconfig/network-scripts/ifcfg-eth1
-            systemctl restart network
-            SHELL
-        when "office1Router"
-          box.vm.provision "shell", run: "always", inline: <<-SHELL
-            sysctl net.ipv4.conf.all.forwarding=1
-            echo "DEFROUTE=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
-            echo "GATEWAY=192.168.3.3" >> /etc/sysconfig/network-scripts/ifcfg-eth4
-            systemctl restart network
-            sysctl net.ipv4.conf.all.forwarding=1
-            SHELL
-        when "office2Router"
-          box.vm.provision "shell", run: "always", inline: <<-SHELL
-            sysctl net.ipv4.conf.all.forwarding=1
-            echo "DEFROUTE=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
-            echo "GATEWAY=192.168.3.17" >> /etc/sysconfig/network-scripts/ifcfg-eth4
-            systemctl restart network
-            sysctl net.ipv4.conf.all.forwarding=1
-            SHELL
-        when "office1Server"
-          box.vm.provision "shell", run: "always", inline: <<-SHELL
-          echo "DEFROUTE=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
-          echo "GATEWAY=192.168.2.66" >> /etc/sysconfig/network-scripts/ifcfg-eth1
-          systemctl restart network
-          SHELL
-        when "office2Server"
-          box.vm.provision "shell", run: "always", inline: <<-SHELL
-          echo "DEFROUTE=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
-          echo "GATEWAY=192.168.1.129" >> /etc/sysconfig/network-scripts/ifcfg-eth1
-          systemctl restart network
-          SHELL
 
-
-        end
+        box.vm.provision :ansible_local do |ansible|
+       #Установка  коллекции community.general, для использования community.general.nmcli (nmcli) управление сетевыми устройствами.
+          ansible.galaxy_command = 'ansible-galaxy collection install community.general'
+          ansible.verbose = "vv"
+          ansible.install = "true"
+          #ansible.limit = "all"
+          ansible.tags = boxname.to_s
+          # ansible.tags = "facts"
+          ansible.inventory_path = "./ansible/inventory/"
+          ansible.playbook = "./ansible/playbooks/routers.yml"
+          end
 
       end
 
