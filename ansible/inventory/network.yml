@@ -1,11 +1,19 @@
 all:
-  children:
-    routers:
-    servers:
+  # children:
+  #   routers:
+  #   servers:
   vars:
     ansible_user: 'vagrant'
     ansible_ssh_pass: 'vagrant'
     ansible_host: 127.0.0.1
+
+
+#Группа net (parent), включающая в себя группы routers и servers (children)
+net:
+  children:
+    routers:
+    servers:
+  vars:
     route_eth1: /etc/sysconfig/network-scripts/route-eth1
     route_eth2: /etc/sysconfig/network-scripts/route-eth2
     route_eth3: /etc/sysconfig/network-scripts/route-eth3
